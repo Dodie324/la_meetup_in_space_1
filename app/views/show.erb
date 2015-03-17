@@ -1,3 +1,7 @@
+<% if message != "" %>
+  <h4> <%= message %> </h4>
+<% end %>
+
 <h1><%= @meetup.name %></h1>
 
 <fieldset>
@@ -8,3 +12,9 @@
   <legend>Location</legend>
   <p><%= @meetup.location %></p>
 </fieldset>
+
+<%if user_id%>
+  <div class="button small">
+    <a href="/join_meetup?user_id=<%= user_id %>&meetup_id=<%= @meetup.id %>">Join</a>
+  </div>
+<% end %>

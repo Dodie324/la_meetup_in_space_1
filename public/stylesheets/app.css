@@ -1,4 +1,3 @@
-
 body {
   background-image: url('/images/stardust.png');
   color: #FFFFFF;
@@ -43,9 +42,15 @@ fieldset {
   margin-bottom: 2em;
 }
 
-.row {
+.row-new-meetup {
   display: block;
 }
+
+#submit-button,
+.new-fields {
+  color: #000;
+}
+
 .container-new-field {
   display: block;
   width: 18em;

@@ -47,22 +47,31 @@ get '/' do
 end
 
 get '/show/:id' do
+  user_id = session[:user_id]
   @meetup = Meetup.find(params[:id])
-  erb :show
+  erb :show, locals: { user_id: user_id, message: params[:message] || "" }
 end
 
 get '/new' do
-  erb :new, locals: { error: params[:error] || nil }
+  erb :new, locals: { message: params[:message] || "" }
 end
 
 post '/new' do
   if valid_params?(params)
     Meetup.create!(name: params[:name], description: params[:description], location: params[:location])
-    redirect '/'
+    confirmation = "Meetup created successfully"
+    last_id = Meetup.all.last.id
+    redirect "/show/#{last_id}?message=#{confirmation}"
   else
     error_message = "You need to fill up the fields"
-    redirect "/new?error=#{error_message}"
+    redirect "/new?message=#{error_message}"
   end
+end
+
+get '/join_meetup' do
+  UserMeetup.create!(user_id: params[:user_id], meetup_id: params[:meetup_id])
+  message = "You joined the group successfully"
+  redirect "/show/#{params[:meetup_id]}?message=#{message}"
 end
 
 get '/auth/github/callback' do
