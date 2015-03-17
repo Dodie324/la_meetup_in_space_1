@@ -1,0 +1,5 @@
+<% @meetups.order('name').each do |meetup| %>
+  <div class='row'>
+    <h1><a href="/show/<%= meetup.id %>"><%= meetup.name %></a></h1>
+  </div>
+<% end %>
