@@ -59,19 +59,24 @@ end
 post '/new' do
   if valid_params?(params)
     Meetup.create!(name: params[:name], description: params[:description], location: params[:location])
-    confirmation = "Meetup created successfully"
+    flash[:notice] = "Meetup created successfully"
     last_id = Meetup.all.last.id
-    redirect "/show/#{last_id}?message=#{confirmation}"
+    redirect "/show/#{last_id}?message=#{flash[:notice]}"
   else
-    error_message = "You need to fill up the fields"
-    redirect "/new?message=#{error_message}"
+    flash[:notice] = "You need to fill up the fields"
+    redirect "/new?message=#{flash[:notice]}"
   end
 end
 
 get '/join_meetup' do
-  UserMeetup.create!(user_id: params[:user_id], meetup_id: params[:meetup_id])
-  message = "You joined the group successfully"
-  redirect "/show/#{params[:meetup_id]}?message=#{message}"
+  new_meetup = UserMeetup.new(params)
+  if new_meetup.save
+    flash[:notice] = "You joined the group!"
+  else
+    flash[:notice] = "You are already a member of this group!"
+  end
+
+  redirect "/show/#{params[:meetup_id]}?message=#{flash[:notice]}"
 end
 
 get '/auth/github/callback' do

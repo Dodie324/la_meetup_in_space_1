@@ -13,8 +13,8 @@
   <p><%= @meetup.location %></p>
 </fieldset>
 
-<%if user_id%>
+<% if user_id %>
   <div class="button small">
-    <a href="/join_meetup?user_id=<%= user_id %>&meetup_id=<%= @meetup.id %>">Join</a>
+    <a id="join" href="/join_meetup?user_id=<%= user_id %>&meetup_id=<%= @meetup.id %>">Join</a>
   </div>
 <% end %>
